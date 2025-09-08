@@ -1,42 +1,3 @@
-// const express = require("express");
-// const app = express();
-// const mongoose = require("mongoose");
-// const dotenv = require("dotenv").config();
-// const cors = require("cors");
-// const bodyParser = require("body-parser");
-// const cookieParser = require("cookie-parser");
-
-// const authRoutes = require("./routes/auth.js");
-// const listingRoutes = require("./routes/listing.js");
-// const bookingRoutes = require("./routes/booking.js");
-// const userRoutes = require("./routes/user.js");
-
-// app.use(
-//   cors({
-//     origin: "http://localhost:3000",
-//     credentials: true,
-//   })
-// );
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(cookieParser());
-// app.use(express.static("public"));
-
-// /* ROUTES */
-// app.use("/auth", authRoutes);
-// app.use("/properties", listingRoutes);
-// app.use("/bookings", bookingRoutes);
-// app.use("/users", userRoutes);
-
-// /* MONGOOSE SETUP */
-// const PORT = 3001;
-// mongoose
-//   .connect(process.env.MONGO_URI)
-//   .then(() => {
-//     app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
-//   })
-//   .catch((err) => console.log(`${err} did not connect`));
-
 require("dotenv").config();
 
 const express = require("express");
@@ -51,23 +12,16 @@ const listingRoutes = require("./routes/listing.js");
 const bookingRoutes = require("./routes/booking.js");
 const userRoutes = require("./routes/user.js");
 
-// ✅ Fixed CORS - allow Render's domain and localhost
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL || "http://localhost:3000", "https://your-render-app.onrender.com"],
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static("public"));
-
-// ✅ Add a root route handler
-app.get("/", (req, res) => {
-  res.json({ message: "Server is running!" });
-});
 
 /* ROUTES */
 app.use("/auth", authRoutes);
@@ -76,11 +30,11 @@ app.use("/bookings", bookingRoutes);
 app.use("/users", userRoutes);
 
 /* MONGOOSE SETUP */
-const PORT = process.env.PORT || 3001; // ✅ Use environment variable
+const PORT = 3001;
 console.log("MONGO_URI is:", process.env.MONGO_URI);
 
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI) // ✅ fixed variable
   .then(() => {
     app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
   })
