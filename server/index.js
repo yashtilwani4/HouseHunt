@@ -24,6 +24,9 @@ app.use(cookieParser());
 app.use(express.static("public"));
 
 /* ROUTES */
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to the API Server!", status: "OK" });
+});
 app.use("/auth", authRoutes);
 app.use("/properties", listingRoutes);
 app.use("/bookings", bookingRoutes);
